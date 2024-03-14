@@ -1,5 +1,6 @@
 package r.d.mymovies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -21,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import r.d.mymovies.adapters.MovieAdapter;
 import r.d.mymovies.data.MainViewModel;
 import r.d.mymovies.data.Movie;
 import r.d.mymovies.utils.JSONUtils;
@@ -37,9 +41,45 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.itemMain:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.itemFavorite:
+//                Intent intentToFavorite = new Intent(this, FavoriteActivity.class);
+//                startActivity(intentToFavorite);
+//                break;
+//        }
+        if (id == R.id.itemMain) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.itemFavorite) {
+            Intent intentToFavorite = new Intent(this, FavoriteActivity.class);
+            startActivity(intentToFavorite);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar == null) {
+//            actionBar.show();
+//        }
+
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         switchSort = findViewById(R.id.switchSort);
         textViewPopularity = findViewById(R.id.textViewPopularity);
@@ -59,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         movieAdapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
             @Override
             public void onPosterClick(int position) {
-//                Toast.makeText(MainActivity.this, "Clicked: " + position, Toast.LENGTH_SHORT).show();
                 Movie movie = movieAdapter.getMovies().get(position);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra("id", movie.getId());
@@ -79,27 +118,6 @@ public class MainActivity extends AppCompatActivity {
                 movieAdapter.setMovies(movies);
             }
         });
-
-
-//        String url = NetworkUtils.buildURL(NetworkUtils.POPULARITY, 2).toString();
-//        Log.i("MyResult", url);
-
-//        JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(NetworkUtils.TOP_RATED, 1);
-//        if (jsonObject == null) {
-//            Toast.makeText(this, "Произошла ошибка", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(this, "Успешно", Toast.LENGTH_SHORT).show();
-//        }
-
-//        JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(NetworkUtils.POPULARITY, 5);
-//        ArrayList<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
-//        StringBuilder builder = new StringBuilder();
-//        for (Movie movie : movies) {
-//            builder.append(movie.getTitle()).append("\n");
-//        }
-//        Log.i("MyResult", builder.toString());
-
-
     }
 
     public void onClickSetPopularity(View view) {
