@@ -24,13 +24,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.trailer_item, viewGroup, false);
         return new TrailerViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull TrailerViewHolder trailerViewHolder, int i) {
         Trailer trailer = trailers.get(i);
         trailerViewHolder.textViewNameOfVideo.setText(trailer.getName());
     }
-
     @Override
     public int getItemCount() {
         return trailers.size();
@@ -39,10 +37,9 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     public interface OnTrailerClickListener {
         void onTrailerClick(String url);
     }
+
     class TrailerViewHolder extends RecyclerView.ViewHolder {
-
         private TextView textViewNameOfVideo;
-
         public TrailerViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewNameOfVideo = itemView.findViewById(R.id.textViewNameOfVideo);
