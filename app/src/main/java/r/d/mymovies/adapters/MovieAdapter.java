@@ -52,7 +52,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder moviesViewHolder, int i) {
-        if (i > movies.size() - 4 && onReachEndListener != null) {
+        if (movies.size() >= 20 && i > movies.size() - 4 && onReachEndListener != null) {
             onReachEndListener.onReachEnd();
         }
         Movie movie = movies.get(i);
@@ -80,6 +80,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 }
             });
         }
+    }
+
+    public void clear() {
+        this.movies.clear();
+        notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
